@@ -1,18 +1,27 @@
-import { Image } from "@mantine/core";
+import { Grid, Image } from "@mantine/core";
 
-function AstronomicalBodyInfo({ images }: { images: { href: string }[] }) {
+function AstronomicalBodyInfo({
+  images,
+}: {
+  images: { href: string; alt: string }[];
+}) {
   return (
     <>
-      {images?.map((image) => {
-        return (
-          <Image
-            key={image.href}
-            radius="md"
-            src={image.href}
-            alt="TODO"
-          ></Image>
-        );
-      })}
+      <Grid grow>
+        {images?.map((image) => {
+          return (
+            <Grid.Col key={image.href} span={6}>
+              <Image
+                height={250}
+                radius="md"
+                src={image.href}
+                alt={image.alt}
+                withPlaceholder
+              ></Image>
+            </Grid.Col>
+          );
+        })}
+      </Grid>
     </>
   );
 }

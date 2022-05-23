@@ -12,10 +12,9 @@ function AstronomicalBodyList({
         <Grid.Col span={12}>
           {options.map((option) => {
             return (
-              <Card p="lg">
+              <Card key={option.id} p="lg">
                 <Card.Section>
                   <Button
-                    key={option.id}
                     onClick={() => {
                       onClick(option.id);
                     }}

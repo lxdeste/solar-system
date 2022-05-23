@@ -1,9 +1,17 @@
-import { Grid, Button, Container } from "@mantine/core";
+import {
+  Grid,
+  Button,
+  Container,
+  ScrollArea,
+  Loader,
+  Center,
+} from "@mantine/core";
 import { useState } from "react";
 import useSWR from "swr";
 import AstronomicalBodyList from "./components/AstronomicalBodyList";
 import AstronomicalBodyInfo from "./components/AstronomicalBodyInfo";
 import NASAImageSearchResponse from "./interfaces/NASAImageSearchResponse";
+import SolarSystem from "./components/SolarSystem";
 
 const fetcher = async (url: string) => {
   const response = await fetch(url);
@@ -18,6 +26,7 @@ const fetcher = async (url: string) => {
 };
 
 const astronomicalBodies = [
+  { id: "sun", title: "Sun", description: "Yet to be written..." },
   { id: "mercury", title: "Mercury", description: "Yet to be written..." },
   { id: "venus", title: "Venus", description: "Yet to be written..." },
   { id: "earth", title: "Earth", description: "Yet to be written..." },
@@ -38,10 +47,13 @@ function useAstronomicalBodyImages(
     fetcher
   );
 
+  console.log(data);
+
   const images = data?.collection.items
     .map((item) =>
-      item.links.map((link) => ({
+      item.links.map((link, index) => ({
         href: link.href,
+        alt: item.data[index].title,
       }))
     )
     .flat();
@@ -55,61 +67,54 @@ function useAstronomicalBodyImages(
 
 function App() {
   const [listMode, setListMode] = useState<"list" | "view">("list");
-  const [planetId, setPlanetId] = useState("");
-  const { images, isLoading, isError } = useAstronomicalBodyImages(planetId);
-  // TODO: loading state
+  const [bodyId, setBodyId] = useState("");
+  const { images, isLoading, isError } = useAstronomicalBodyImages(bodyId);
 
   return (
-    <Grid sx={() => ({ margin: 0 })}>
-      <Grid.Col span={3}>
-        <Container p="md">
-          {listMode === "list" ? (
-            <AstronomicalBodyList
-              options={astronomicalBodies}
-              onClick={(id) => {
-                setPlanetId(id);
-                setListMode("view");
-              }}
-            />
-          ) : (
-            <>
-              <Button
-                onClick={() => {
-                  setListMode("list");
-                }}
-              >
-                Back
-              </Button>
-              <AstronomicalBodyInfo images={images!} />
-            </>
-          )}
+    <Grid sx={() => ({ margin: 0, height: "100vh" })}>
+      <Grid.Col span={4} sx={() => ({ height: "100%" })}>
+        <Container p="md" sx={() => ({ height: "100%" })}>
+          <ScrollArea sx={() => ({ height: "100%" })}>
+            {!isLoading ? (
+              <>
+                {listMode === "list" ? (
+                  <AstronomicalBodyList
+                    options={astronomicalBodies}
+                    onClick={(id) => {
+                      setBodyId(id);
+                      setListMode("view");
+                    }}
+                  />
+                ) : (
+                  <>
+                    <Button
+                      onClick={() => {
+                        setBodyId("");
+                        setListMode("list");
+                      }}
+                    >
+                      Back
+                    </Button>
+                    <AstronomicalBodyInfo images={images!} />
+                  </>
+                )}
+              </>
+            ) : (
+              <Center>
+                <Loader />
+              </Center>
+            )}
+          </ScrollArea>
         </Container>
       </Grid.Col>
-      <Grid.Col span={9}>
-        <Container p="md">
-          {/* TODO: this is where my three-js-fiber is going */}
-
-          {astronomicalBodies.map((astronomicalBody) => {
-            return (
-              <Button
-                color={
-                  planetId === astronomicalBody.id && listMode === "view"
-                    ? "red"
-                    : undefined
-                }
-                id={astronomicalBody.id}
-                onClick={() => {
-                  setPlanetId(astronomicalBody.id);
-                  if (listMode === "list") {
-                    setListMode("view");
-                  }
-                }}
-              >
-                {astronomicalBody.title}
-              </Button>
-            );
-          })}
-        </Container>
+      <Grid.Col span={8} sx={() => ({ height: "100vh" })}>
+        <SolarSystem
+          bodyClicked={(id) => {
+            setBodyId(id);
+            setListMode("view");
+          }}
+          selectedBody={bodyId}
+        />
       </Grid.Col>
     </Grid>
   );

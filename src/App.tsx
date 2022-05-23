@@ -1,17 +1,11 @@
-import {
-  Grid,
-  Button,
-  Container,
-  ScrollArea,
-  Loader,
-  Center,
-} from "@mantine/core";
+import { Grid, Button, Container, ScrollArea } from "@mantine/core";
 import { useState } from "react";
 import useSWR from "swr";
 import AstronomicalBodyList from "./components/AstronomicalBodyList";
 import AstronomicalBodyInfo from "./components/AstronomicalBodyInfo";
 import NASAImageSearchResponse from "./interfaces/NASAImageSearchResponse";
 import SolarSystem from "./components/SolarSystem";
+import astronomicalBodies from "./astronomicalBodyData";
 
 const fetcher = async (url: string) => {
   const response = await fetch(url);
@@ -25,19 +19,6 @@ const fetcher = async (url: string) => {
   return response.json();
 };
 
-const astronomicalBodies = [
-  { id: "sun", title: "Sun", description: "Yet to be written..." },
-  { id: "mercury", title: "Mercury", description: "Yet to be written..." },
-  { id: "venus", title: "Venus", description: "Yet to be written..." },
-  { id: "earth", title: "Earth", description: "Yet to be written..." },
-  { id: "mars", title: "Mars", description: "Yet to be written..." },
-  { id: "jupiter", title: "Jupiter", description: "Yet to be written..." },
-  { id: "saturn", title: "Saturn", description: "Yet to be written..." },
-  { id: "uranus", title: "Uranus", description: "Yet to be written..." },
-  { id: "neptune", title: "Neptune", description: "Yet to be written..." },
-  { id: "pluto", title: "Pluto", description: "Yet to be written..." },
-];
-
 function useAstronomicalBodyImages(
   astronomicalBody: string,
   pageNumber: number = 1
@@ -46,8 +27,6 @@ function useAstronomicalBodyImages(
     `https://images-api.nasa.gov/search?q=${astronomicalBody}&media_type=image&page=${pageNumber}`,
     fetcher
   );
-
-  console.log(data);
 
   const images = data?.collection.items
     .map((item) =>
@@ -75,34 +54,33 @@ function App() {
       <Grid.Col span={4} sx={() => ({ height: "100%" })}>
         <Container p="md" sx={() => ({ height: "100%" })}>
           <ScrollArea sx={() => ({ height: "100%" })}>
-            {!isLoading ? (
-              <>
-                {listMode === "list" ? (
-                  <AstronomicalBodyList
-                    options={astronomicalBodies}
-                    onClick={(id) => {
-                      setBodyId(id);
-                      setListMode("view");
-                    }}
-                  />
-                ) : (
-                  <>
-                    <Button
-                      onClick={() => {
-                        setBodyId("");
-                        setListMode("list");
-                      }}
-                    >
-                      Back
-                    </Button>
-                    <AstronomicalBodyInfo images={images!} />
-                  </>
-                )}
-              </>
+            {listMode === "list" ? (
+              <AstronomicalBodyList
+                options={astronomicalBodies}
+                onClick={(id) => {
+                  setBodyId(id);
+                  setListMode("view");
+                }}
+              />
             ) : (
-              <Center>
-                <Loader />
-              </Center>
+              <>
+                <Button
+                  mb={"md"}
+                  onClick={() => {
+                    setBodyId("");
+                    setListMode("list");
+                  }}
+                >
+                  Back
+                </Button>
+                <AstronomicalBodyInfo
+                  loading={isLoading}
+                  bodyDetails={astronomicalBodies.find(
+                    (body) => body.id === bodyId
+                  )}
+                  images={images!}
+                />
+              </>
             )}
           </ScrollArea>
         </Container>

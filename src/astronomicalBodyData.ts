@@ -6,6 +6,8 @@ const astronomicalBodies: {
   position: [number, number, number];
   color: THREE.ColorRepresentation;
   isLightSource?: boolean;
+  title: string;
+  description: string;
 }[] = [
   {
     id: "sun",
@@ -15,6 +17,8 @@ const astronomicalBodies: {
     position: [0, 0, 0],
     color: "Orange",
     isLightSource: true,
+    title: "The Sun",
+    description: "Very hot",
   },
   {
     id: "mercury",
@@ -23,6 +27,8 @@ const astronomicalBodies: {
     orbitingSpeed: 0.01,
     position: [9, 0, 0],
     color: "Brown",
+    title: "Mercury",
+    description: "Very hot, but also very cold",
   },
   {
     id: "venus",
@@ -31,6 +37,8 @@ const astronomicalBodies: {
     orbitingSpeed: 0.003,
     position: [12, 0, 0],
     color: "Khaki",
+    title: "Venus",
+    description: "Air so heavy it can kill you",
   },
   {
     id: "earth",
@@ -39,6 +47,8 @@ const astronomicalBodies: {
     orbitingSpeed: 0.008,
     position: [16, 0, 0],
     color: "SkyBlue",
+    title: "Earth",
+    description: "Where you are right now... Probably...",
   },
   {
     id: "mars",
@@ -47,6 +57,8 @@ const astronomicalBodies: {
     orbitingSpeed: 0.01,
     position: [19, 0, 0],
     color: "DarkRed",
+    title: "Mars",
+    description: "THE RED PLANET.",
   },
   {
     id: "jupiter",
@@ -55,6 +67,8 @@ const astronomicalBodies: {
     orbitingSpeed: 0.004,
     position: [24, 0, 0],
     color: "LightSalmon",
+    title: "Jupiter",
+    description: "The biggest planet.",
   },
   {
     id: "saturn",
@@ -63,6 +77,9 @@ const astronomicalBodies: {
     orbitingSpeed: 0.002,
     position: [29, 0, 0],
     color: "Bisque",
+    title: "Saturn",
+    description:
+      "The planet known for a giant ring of ice that hasn't been implemented...",
   },
   {
     id: "uranus",
@@ -70,7 +87,9 @@ const astronomicalBodies: {
     rotationSpeed: 0.01,
     orbitingSpeed: 0.009,
     position: [34, 0, 0],
-    color: "green",
+    color: "Green",
+    title: "Uranus",
+    description: "...",
   },
   {
     id: "neptune",
@@ -78,7 +97,9 @@ const astronomicalBodies: {
     rotationSpeed: 0.01,
     orbitingSpeed: 0.01,
     position: [39, 0, 0],
-    color: "blue",
+    color: "Blue",
+    title: "Neptune",
+    description: "The other blue planet",
   },
   {
     id: "pluto",
@@ -87,6 +108,8 @@ const astronomicalBodies: {
     orbitingSpeed: 0.001,
     position: [47, 0, 0],
     color: "RebeccaPurple",
+    title: "Pluto",
+    description: "Some would argue that this one shouldn't be here",
   },
 ];
 

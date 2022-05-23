@@ -1,53 +1,16 @@
-import { Grid, Button, Container, ScrollArea } from "@mantine/core";
+import { Button, Container, Grid, ScrollArea } from "@mantine/core";
 import { useState } from "react";
-import useSWR from "swr";
-import AstronomicalBodyList from "./components/AstronomicalBodyList";
-import AstronomicalBodyInfo from "./components/AstronomicalBodyInfo";
-import NASAImageSearchResponse from "./interfaces/NASAImageSearchResponse";
-import SolarSystem from "./components/SolarSystem";
+
 import astronomicalBodies from "./astronomicalBodyData";
-
-const fetcher = async (url: string) => {
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    const error = new Error("An error occurred while fetching the data");
-    error.message = `Something went wrong... (Service responded with a status of ${response.status})`;
-    throw error;
-  }
-
-  return response.json();
-};
-
-function useAstronomicalBodyImages(
-  astronomicalBody: string,
-  pageNumber: number = 1
-) {
-  const { data, error } = useSWR<NASAImageSearchResponse, Error>(
-    `https://images-api.nasa.gov/search?q=${astronomicalBody}&media_type=image&page=${pageNumber}`,
-    fetcher
-  );
-
-  const images = data?.collection.items
-    .map((item) =>
-      item.links.map((link, index) => ({
-        href: link.href,
-        alt: item.data[index].title,
-      }))
-    )
-    .flat();
-
-  return {
-    images,
-    isLoading: !error && !data,
-    isError: error,
-  };
-}
+import AstronomicalBodyInfo from "./components/AstronomicalBodyInfo";
+import AstronomicalBodyList from "./components/AstronomicalBodyList";
+import SolarSystem from "./components/SolarSystem";
+import useAstronomicalBodyImages from "./hooks/useAstronomicalBodyImages";
 
 function App() {
   const [listMode, setListMode] = useState<"list" | "view">("list");
   const [bodyId, setBodyId] = useState("");
-  const { images, isLoading, isError } = useAstronomicalBodyImages(bodyId);
+  const { images, isLoading } = useAstronomicalBodyImages(bodyId);
 
   return (
     <Grid sx={() => ({ margin: 0, height: "100vh" })}>

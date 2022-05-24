@@ -7,17 +7,19 @@ import AstronomicalBodyList from "./components/AstronomicalBodyList";
 import SolarSystem from "./components/SolarSystem";
 import useAstronomicalBodyImages from "./hooks/useAstronomicalBodyImages";
 
+const fullHeight = () => ({ height: "100%" });
+
 function App() {
-  const [listMode, setListMode] = useState<"list" | "view">("list");
   const [bodyId, setBodyId] = useState("");
+  const [listMode, setListMode] = useState<"list" | "view">("list");
   const { images, isLoading } = useAstronomicalBodyImages(bodyId);
 
   return (
     <Grid sx={() => ({ margin: 0, height: "100vh" })}>
-      <Grid.Col span={4} sx={() => ({ height: "100%" })}>
-        <Container p="md" sx={() => ({ height: "100%" })}>
-          <ScrollArea sx={() => ({ height: "100%" })}>
-            {listMode === "view" ? (
+      <Grid.Col span={4} sx={fullHeight}>
+        <Container p="md" sx={fullHeight}>
+          <ScrollArea sx={fullHeight}>
+            {listMode === "view" && (
               <>
                 <Button
                   mb={"md"}
@@ -36,7 +38,9 @@ function App() {
                   images={images!}
                 />
               </>
-            ) : (
+            )}
+
+            {listMode === "list" && (
               <AstronomicalBodyList
                 options={astronomicalBodies}
                 onClick={(id) => {
@@ -48,6 +52,7 @@ function App() {
           </ScrollArea>
         </Container>
       </Grid.Col>
+
       <Grid.Col span={8} sx={() => ({ height: "100vh" })}>
         <SolarSystem
           bodyClicked={(id) => {

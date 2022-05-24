@@ -59,7 +59,7 @@ function AstronomicalBody({
           position={[0, 3 / scale / 2 + 1, 0]}
           scale={1 / scale / 2}
         >
-          <meshBasicMaterial color={hovered ? "hotpink" : "blue"} />
+          <meshBasicMaterial color={hovered ? "Hotpink" : "Aquamarine"} />
           <coneGeometry args={[1, 2, 32]} />
         </mesh>
       ) : undefined}

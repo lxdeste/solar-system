@@ -18,7 +18,7 @@ const astronomicalBodies: {
     color: "Orange",
     isLightSource: true,
     title: "The Sun",
-    description: "Very hot",
+    description: "Very, very, very hot",
   },
   {
     id: "mercury",

@@ -17,15 +17,7 @@ function App() {
       <Grid.Col span={4} sx={() => ({ height: "100%" })}>
         <Container p="md" sx={() => ({ height: "100%" })}>
           <ScrollArea sx={() => ({ height: "100%" })}>
-            {listMode === "list" ? (
-              <AstronomicalBodyList
-                options={astronomicalBodies}
-                onClick={(id) => {
-                  setBodyId(id);
-                  setListMode("view");
-                }}
-              />
-            ) : (
+            {listMode === "view" ? (
               <>
                 <Button
                   mb={"md"}
@@ -44,6 +36,14 @@ function App() {
                   images={images!}
                 />
               </>
+            ) : (
+              <AstronomicalBodyList
+                options={astronomicalBodies}
+                onClick={(id) => {
+                  setBodyId(id);
+                  setListMode("view");
+                }}
+              />
             )}
           </ScrollArea>
         </Container>

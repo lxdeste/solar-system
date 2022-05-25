@@ -1,14 +1,32 @@
-import { Card, Center, Grid, Image, Loader, Text, Title } from "@mantine/core";
+import {
+  Card,
+  Center,
+  Grid,
+  Image,
+  Loader,
+  Pagination,
+  Text,
+  Title,
+} from "@mantine/core";
+import { useEffect, useState } from "react";
+import useNASAAstronomicalBodyImages from "../hooks/useAstronomicalBodyImages";
 
 function AstronomicalBodyInfo({
   bodyDetails,
-  images,
-  loading,
 }: {
   bodyDetails: { id: string; title: string; description: string } | undefined;
-  images: { href: string; alt: string }[];
-  loading: boolean;
 }) {
+  const [pageNumber, setPageNumber] = useState(1);
+
+  const { isLoading, images, pageTotal } = useNASAAstronomicalBodyImages(
+    bodyDetails?.id,
+    pageNumber
+  );
+
+  useEffect(() => {
+    setPageNumber(1);
+  }, [bodyDetails?.id]);
+
   return (
     <Grid>
       <Grid.Col span={12}>
@@ -17,7 +35,7 @@ function AstronomicalBodyInfo({
           <Text>{bodyDetails?.description}</Text>
         </Card>
       </Grid.Col>
-      {!loading ? (
+      {!isLoading ? (
         <>
           {images?.map((image) => {
             return (
@@ -40,6 +58,18 @@ function AstronomicalBodyInfo({
           </Center>
         </Grid.Col>
       )}
+      <Grid.Col span={12}>
+        {!isLoading && (
+          <Center>
+            <Pagination
+              page={pageNumber}
+              onChange={setPageNumber}
+              total={pageTotal}
+              radius={"md"}
+            />
+          </Center>
+        )}
+      </Grid.Col>
     </Grid>
   );
 }

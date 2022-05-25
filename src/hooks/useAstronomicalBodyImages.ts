@@ -13,13 +13,21 @@ const fetcher = async (url: string) => {
   return response.json();
 };
 
-function useAstronomicalBodyImages(
-  astronomicalBody: string,
+function useNASAAstronomicalBodyImages(
+  astronomicalBody: string | undefined,
   pageNumber: number = 1
 ) {
+  const queryString = !!astronomicalBody
+    ? `https://images-api.nasa.gov/search?q=${astronomicalBody}&media_type=image&page=${pageNumber}`
+    : null;
+
   const { data, error } = useSWR<NASAImageSearchResponse, Error>(
-    `https://images-api.nasa.gov/search?q=${astronomicalBody}&media_type=image&page=${pageNumber}`,
+    queryString,
     fetcher
+  );
+
+  let pageTotal = Math.ceil(
+    (data?.collection?.metadata?.total_hits ?? 0) / 100
   );
 
   const images = data?.collection.items
@@ -33,9 +41,10 @@ function useAstronomicalBodyImages(
 
   return {
     images,
+    pageTotal,
     isLoading: !error && !data,
     isError: error,
   };
 }
 
-export default useAstronomicalBodyImages;
+export default useNASAAstronomicalBodyImages;

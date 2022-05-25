@@ -1,4 +1,5 @@
 import { Card, Button, Grid } from "@mantine/core";
+
 function AstronomicalBodyList({
   options,
   onClick,

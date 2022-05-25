@@ -17,5 +17,8 @@ export default interface NASAImageSearchResponse {
       links: { href: string; rel: string; render: string }[];
     }[];
     links: { rel: string; prompt: string; href: string }[];
+    metadata: {
+      total_hits: number;
+    };
   };
 }

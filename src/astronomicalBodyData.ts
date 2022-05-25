@@ -1,14 +1,6 @@
-const astronomicalBodies: {
-  id: string;
-  scale: number;
-  rotationSpeed: number;
-  orbitingSpeed: number;
-  position: [number, number, number];
-  color: THREE.ColorRepresentation;
-  isLightSource?: boolean;
-  title: string;
-  description: string;
-}[] = [
+import AstronomicalBody from "./interfaces/AstronomicalBody";
+
+const astronomicalBodies: AstronomicalBody[] = [
   {
     id: "sun",
     scale: 3,
@@ -18,7 +10,7 @@ const astronomicalBodies: {
     color: "Orange",
     isLightSource: true,
     title: "The Sun",
-    description: "Very, very, very hot",
+    wikipediaPageId: 26751,
   },
   {
     id: "mercury",
@@ -28,7 +20,7 @@ const astronomicalBodies: {
     position: [9, 0, 0],
     color: "Brown",
     title: "Mercury",
-    description: "Very hot, but also very cold",
+    wikipediaPageId: 19694,
   },
   {
     id: "venus",
@@ -38,7 +30,7 @@ const astronomicalBodies: {
     position: [12, 0, 0],
     color: "Khaki",
     title: "Venus",
-    description: "Air so heavy it can kill you",
+    wikipediaPageId: 32745,
   },
   {
     id: "earth",
@@ -48,7 +40,7 @@ const astronomicalBodies: {
     position: [16, 0, 0],
     color: "SkyBlue",
     title: "Earth",
-    description: "Where you are right now... Probably...",
+    wikipediaPageId: 9228,
   },
   {
     id: "mars",
@@ -58,7 +50,7 @@ const astronomicalBodies: {
     position: [19, 0, 0],
     color: "DarkRed",
     title: "Mars",
-    description: "THE RED PLANET.",
+    wikipediaPageId: 14640471,
   },
   {
     id: "jupiter",
@@ -68,7 +60,7 @@ const astronomicalBodies: {
     position: [24, 0, 0],
     color: "LightSalmon",
     title: "Jupiter",
-    description: "The biggest planet.",
+    wikipediaPageId: 38930,
   },
   {
     id: "saturn",
@@ -78,8 +70,7 @@ const astronomicalBodies: {
     position: [29, 0, 0],
     color: "Bisque",
     title: "Saturn",
-    description:
-      "The planet known for a giant ring of ice that hasn't been implemented...",
+    wikipediaPageId: 44474,
   },
   {
     id: "uranus",
@@ -89,7 +80,7 @@ const astronomicalBodies: {
     position: [34, 0, 0],
     color: "Green",
     title: "Uranus",
-    description: "...",
+    wikipediaPageId: 44475,
   },
   {
     id: "neptune",
@@ -99,7 +90,7 @@ const astronomicalBodies: {
     position: [39, 0, 0],
     color: "Blue",
     title: "Neptune",
-    description: "The other blue planet",
+    wikipediaPageId: 19003265,
   },
   {
     id: "pluto",
@@ -109,7 +100,7 @@ const astronomicalBodies: {
     position: [47, 0, 0],
     color: "RebeccaPurple",
     title: "Pluto",
-    description: "Some would argue that this one shouldn't be here",
+    wikipediaPageId: 44469,
   },
 ];
 

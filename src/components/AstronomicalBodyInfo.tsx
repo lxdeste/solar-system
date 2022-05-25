@@ -9,18 +9,25 @@ import {
   Title,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
+
 import useNASAAstronomicalBodyImages from "../hooks/useAstronomicalBodyImages";
+import useWikipediaExtract from "../hooks/useWikipediaExtract";
+import AstronomicalBody from "../interfaces/AstronomicalBody";
 
 function AstronomicalBodyInfo({
   bodyDetails,
 }: {
-  bodyDetails: { id: string; title: string; description: string } | undefined;
+  bodyDetails: AstronomicalBody | undefined;
 }) {
   const [pageNumber, setPageNumber] = useState(1);
 
   const { isLoading, images, pageTotal } = useNASAAstronomicalBodyImages(
     bodyDetails?.id,
     pageNumber
+  );
+
+  const { isLoading: wikiLoading, extract } = useWikipediaExtract(
+    bodyDetails?.wikipediaPageId
   );
 
   useEffect(() => {
@@ -31,8 +38,16 @@ function AstronomicalBodyInfo({
     <Grid>
       <Grid.Col span={12}>
         <Card radius="md">
-          <Title order={1}>{bodyDetails?.title}</Title>
-          <Text>{bodyDetails?.description}</Text>
+          <Title mb="md" order={1}>
+            {bodyDetails?.title}
+          </Title>
+          {!wikiLoading ? (
+            <Text>{extract}</Text>
+          ) : (
+            <Center mb={"md"}>
+              <Loader />
+            </Center>
+          )}
         </Card>
       </Grid.Col>
       {!isLoading ? (
